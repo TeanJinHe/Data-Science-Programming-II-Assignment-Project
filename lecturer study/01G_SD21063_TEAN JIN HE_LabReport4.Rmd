@@ -1,0 +1,73 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+DATA SCIENCE PROGRAMMING II (BSD2223)
+
+LAB REPORT 4
+NAME:         TEAN JIN HE
+MATRIC ID:    SD21063
+SECTION:      01G
+
+Question 1
+```{r}
+##The two characteristics of data frame are:-
+##i)  Data frame can store different types of data in each column, such as numeric, character, or logical.
+##ii) Data frame can be converted to a matrix or a list using as.matrix() or as.list() functions.
+```
+
+Question 2
+```{r}
+#a.
+data("Seatbelts")
+sb <- Seatbelts
+head(sb,10); tail(sb,10)
+df <- as.data.frame(sb)
+```
+
+```{r}
+#b.
+str(df)
+```
+```{r}
+dim(df)
+```
+```{r}
+ls(df)
+```
+```{r}
+#OR
+names(df)
+```
+
+```{r}
+#c.
+dk <- df$DriversKilled
+dk
+```
+```{r}
+law <- df$law
+law
+
+```
+
+```{r}
+#d.
+sub <- df[df$kms >= 10000 & df$kms <= 15000 & df$VanKilled > 10, ]
+sub
+```
+```{r}
+#OR
+subset(df, (kms >= 10000 & kms <= 15000) & VanKilled>10)
+```
+
+```{r}
+#e.
+sapply(df[,1:7], mean)
+```
+
+```{r}
+#OR
+lapply[df[,1:7], mean)
+```
+

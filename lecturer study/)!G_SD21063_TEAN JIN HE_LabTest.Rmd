@@ -1,0 +1,101 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Lab Test
+
+Question 1
+```{r}
+#a)
+#Differentiate the expressions
+D(expression(exp(2 * x) + 2 * log(3 * x)),"x")
+
+```
+```{r}
+#b)
+#Show area of curve
+result <- integrate(function(x) 9 - x^2, 0, 3)
+result
+area <- result$value
+area
+```
+```{r}
+#c)
+#Show the values by 2 decimal places
+distance <- function(x1, y1, x2, y2){
+d <- sqrt((x1 - x2)^2 + (y1 - y2)^2)
+rounded_d <- round(d, 2)
+return(rounded_d)}
+
+result <- distance(5, 6, -1, 2)
+print(result)
+```
+
+Question 2
+```{r}
+#a)
+#Load the csv file
+dt_height <- read.csv("C:\\Users\\user\\Downloads\\weight_height.csv")
+dt_height
+```
+```{r}
+#Show mean by 4 decimal places
+result <- mean(dt_height$Height_m)
+mean <- round(result,4)
+mean
+```
+```{r}
+#Show variance by 4 decimal places
+result <- var(dt_height$Height_m)
+variance <- round(result,4)
+variance
+```
+
+```{r}
+#b)
+#Histogram of Students Height
+hist(dt_height$Height_m,xlab="Height(m)", ylab="ID.No",
+main="Students Height", col="yellow")
+
+```
+Comment: From the histogram, the height of 1.55m to 1.6m is the highest and the height of 1.8m above is the lowest.
+
+```{r}
+#c)
+#Using Shapiro-Wilk
+shapiro.test(dt_height$Height_m)
+#null hypothesis for the normality test which is the data follows to the normal distribution. 
+#it will reject null hypothesis since p< 0.05
+```
+Question 3
+```{r}
+#a)
+mean
+variance
+
+shape <- mean^2 / variance
+rate <- mean / variance
+
+print(shape)
+print(rate)
+```
+```{r}
+#b)
+# Set the seed
+set.seed(1234)
+
+# Generate sample data to gamma distribution
+dt_gam <- rgamma(1000, shape = shape, rate = rate)
+
+# Show the first and last parts of the generated data
+head(dt_gam)
+tail(dt_gam)
+```
+```{r}
+#c)
+#Boxplot of Student Height by Using Gamma Distribution
+boxplot(dt_gam,xlab="dt_gam",ylab="Height(m)",
+main="Student Height by Using Gamma Distribution ", col="pink")
+```
+Comment: The distribution of the boxplot is symmetrically skewed.

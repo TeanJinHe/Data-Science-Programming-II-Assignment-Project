@@ -1,0 +1,50 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+Name: TEAN JIN HE     MatricID: SD21063
+
+Exercise 8
+```{r}
+#a)
+#Binomial distribution is a discrete probability distribution that models the number of successes in a fixed number of independent trials.
+#Binomial distribution has two parameters: n, the number of trials, and p, the probability of success on each trial. The probability mass function (PMF) of binomial distribution is given by:
+#f(x)= (nCx) x (p^x) x ((1-p)^n-x)
+#where x is the number of successes and (n  x) is the binomial coefficient.
+
+#Gamma distribution is a continuous probability distribution that models the time until a certain number of events occur in a Poisson process.
+#Gamma distribution has two parameters: k (or α), the shape parameter, and θ (or β), the scale (or rate) parameter. The probability density function (PDF) of gamma distribution is given by:
+#f(x)=1/(Γ(k)θ^k)(x^(k−1)e^(−x/θ))
+#where x is the time variable and Γ(k) is the gamma function.
+```
+
+```{r}
+#b)
+#To generate 10 random values from a binomial distribution with n = 20 and p = 0.5, you can use the rbinom function:
+
+set.seed(123)
+rbinom(10, size = 20, prob = 0.5)
+```
+```{r}
+#To plot the probability mass function of a binomial distribution with n = 10 and p = 0.2, you can use the dbinom function:
+
+x <- 0:10
+y <- dbinom(x, size = 10, prob = 0.2)
+plot(x, y, type = "h", main = "Binomial PMF")
+points(x, y)
+```
+```{r}
+#To generate 10 random values from a gamma distribution with shape = 2 and rate = 1, you can use the rgamma function:
+
+set.seed(123)
+rgamma(10, shape = 2, rate = 1)
+```
+```{r}
+#To plot the probability density function of a gamma distribution with shape = 2 and rate = 1, you can use the dgamma function:
+  
+x <- seq(0, 10, by = 0.1)
+y <- dgamma(x, shape = 2, rate = 1)
+plot(x, y, type = "l", main = "Gamma PDF")
+```
+
+

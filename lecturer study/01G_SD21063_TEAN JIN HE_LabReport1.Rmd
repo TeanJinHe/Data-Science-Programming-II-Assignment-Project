@@ -1,0 +1,109 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+DATA SCIENCE PROGRAMMING II (BSD2223)
+
+LAB REPORT 1
+NAME:         TEAN JIN HE
+MATRIC ID:    SD21063
+SECTION:      01G
+
+QUESTIONS 1
+```{r}
+s1 <- 1.9
+s2 <- 2.7
+n1 <- 25
+n2 <- 18
+
+degreesoffreedom <- (((s1^2/n1)+(s2^2/n2))^2)/((((s1^2/n1)^2)/(n1-1))+(((s2^2/n2)^2)/(n2-1)))
+degreesoffreedom
+```
+QUESTIONS 2
+```{r}
+#A
+fruits <- c("apple","banana","strawberry","durian","mango")
+fruits
+
+#B
+oddnum <- seq(11,20,by=2)
+oddnum
+
+#C
+fruitsandoddcom <- c(fruits,oddnum)
+fruitsandoddcom
+
+#D
+class(fruitsandoddcom)
+
+#E
+fruitsandoddcom[c(3,7)]
+
+#F
+head(fruitsandoddcom,-1)
+```
+QUESTIONS 3
+```{r}
+##Relation operators are used to compare between values, terms or expressions. Returns a Boolean TRUE value if the first operand satisfies the relation compared to the second. A TRUE value is always considered to be greater than the FALSE. For example:
+
+## The result of different words is shown 'FALSE'
+"LinDan" == "LeeChongWei"
+
+## The result of same words is shown 'TRUE'
+"LeeChongWei" == "LeeChongWei"
+
+## 4 > 2 is shown 'TRUE'
+4 > 2
+
+## 4 < 2 is shown 'FALSE'
+4 < 2
+
+## Since the last number of alphabet is z which is the largest number for all alphabets and 9 also is the largest number for all singular numbers. For Example:
+
+#A < B < C < D < E < F < G < H < I < J < K < L < M
+#  < N < O < P < Q < R < S < T < U < V < W < X < Y < Z
+
+#a < b < c < d < e < f < g < h < i < j < k < l < m
+#  < n < o < p < q < r < s < t < u < v < w < x < y < z
+
+#0 < 1 < 2 < 3 < 4 < 5 < 6 < 7 < 8 < 9
+
+##Doing for compare "abcdef" and "abcefg"
+
+##Since the first three characters of both strings are equal but 'd' of the first string is smaller than 'e' of the second, then "abcdef" < "abcefg" is TRUE.
+
+c("abcdef") < c("abcefg")
+```
+```{r}
+## logical operators are used to carry out Boolean operations which are ‘AND’, ‘OR’ and ‘NOT’. For example:
+
+a <- c(TRUE, TRUE, FALSE, FALSE)
+b <- c(TRUE, FALSE, TRUE, FALSE)
+
+## The result of NOT 'a' is shown opposite of the elements of 'a'
+!a
+
+## Operators & and | perform element-wise operation producing result with the length of the longer operand.
+a & b
+
+a | b
+
+## Operators && and || evaluates only the first element of the operands resulting into a single length logical vector.
+a && b
+
+a || b
+```
+
+QUESTIONS 4
+```{r}
+#A
+v1 <- c(TRUE,TRUE,-0.001,0,FALSE)
+V2 <- c(FALSE,TRUE,0,TRUE,55)
+v1 || v2
+
+#B
+v3 <- c(TRUE,FALSE,0,27,-0.001)
+v4 <- c(TRUE,-0.5,0,TRUE,0)
+v3 & v4
+```
+

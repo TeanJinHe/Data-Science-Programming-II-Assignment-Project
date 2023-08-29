@@ -1,0 +1,18 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+#define vector of values
+dt <- seq(4, 30, length=8); dt
+
+#replace value in position 6
+dt_new <- replace(dt, 6, 99); dt_new
+
+#replace value in multiple positions
+dt_new <- replace(dt, c(2,6), 99); dt_new
+dt_new <- replace(dt, c(2,6,8), c(99,100,101)); dt_new
+dt_new <- replace(dt, c(2,6,8), 99:101); dt_new
+```
+

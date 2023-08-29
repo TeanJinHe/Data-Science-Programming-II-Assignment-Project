@@ -1,0 +1,362 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Exercise 7.1a) if
+```{r}
+#if statement
+hp_price <- 1200
+if(hp_price > 1500)
+{ decision <- "Don’t buy"
+print(decision)
+#decision
+}
+hp_price <- 1700
+if(hp_price > 1500)
+{ decision <- "Don’t buy"
+print(decision)
+}
+```
+
+Exercise 7.1b) if
+```{r}
+x <- 90
+if(x > 100)
+{ print(paste(x, "is greater than 100"))
+}
+x <- 150
+if(x > 100)
+{ print(paste(x, "is greater than 100"))
+}
+```
+
+Exercise 7.2a) if-else
+```{r}
+hp_price <- 1200
+# Set the is-else statement
+if(hp_price > 1500)
+{print(paste(hp_price,"is expensive"))}else
+{print(paste(hp_price,"is affordable"))}
+```
+```{r}
+hp_price <- 1700
+# Set the is-else statement
+if(hp_price > 1500)
+{print(paste(hp_price,"is expensive"))}else
+{print(paste(hp_price,"is affordable"))}
+```
+
+Exercise 7.2b) if-else
+```{r}
+x <- 150
+if(x > 100)
+{ print(paste(x, "is greater than 100"))}else
+{print(paste(x,"is less than 100"))}
+
+```
+```{r}
+x <- 90
+# Check value is less than or greater than 10
+if(x > 100)
+{ print(paste(x, "is greater than 100"))}else
+{ print(paste(x, "is less than 100"))}
+```
+
+Exercise 7.3
+```{r}
+# for loop
+#vector
+for (x in 1:10)
+{ print(x)}
+```
+```{r}
+#vector
+x <- letters[4:10]
+for(i in x)
+{ print(i)}
+```
+```{r}
+#list
+fruits <- list("durian", "rambutan", "pisang")
+for (x in fruits)
+{ print(x)}
+
+```
+
+Exercise 7.4a) nested loop
+```{r}
+# outer loop
+for (i in c('Proton')){
+# inner loop
+for (j in c('Saga','Wira')){
+# print i and j values
+print(c(i,j)) 
+}
+}
+```
+```{r}
+# outer loop
+for (i in c('X','Y','Z')){
+# inner loop
+for (j in c('A','B')){
+# print i and j values
+print(c(i,j)) 
+}
+}
+```
+
+Exercise 7.4b) nested loop
+```{r}
+adj <- list("red", "big", "nice")
+item <- list("apple", "car")
+for (x in adj) {
+for (y in item) {
+print(paste(x, y))
+}
+}
+```
+
+Exercise 7.4 while loop
+```{r}
+x = 4
+while(x <= 10)
+{ print(x)
+x = x + 2}
+```
+```{r}
+i=5; n=8
+while (i < n)
+{ print(i)
+i = i + 1}
+```
+
+```{r}
+i=4; n=10
+while (i < n)
+{ print(i)
+i = 2*i + 1}
+```
+```{r}
+i=1; n=10
+while (i < n)
+{ print(i)
+i = 6*i + 3 - 1}
+```
+Example 7.5a repeat and break
+```{r}
+x <- 1 # Set a starting value
+
+# Repeat until x is greater than 10
+repeat {
+print(x) # Print the current value of x
+
+x <- x + 2 # Increment x by 2
+
+# If x is greater than 10, break out of the loop
+if (x > 10) {
+break
+}
+}
+```
+Example 7.5b repeat and break
+```{r}
+x = 1
+# Print 1 to 5
+repeat{ print(x)
+x = x + 1
+if(x > 5)
+break}
+```
+```{r}
+i = 2
+repeat { print(i)
+i = 2*i - 1
+if(i > 4)
+break}
+```
+Example 7.5c repeat and break
+```{r}
+fruits <- list("durian", "rambutan", "ciku")
+for (x in fruits) {
+if (x == "durian")
+break
+print(x)
+}
+```
+
+```{r}
+fruits <- list("durian", "rambutan", "ciku")
+for (x in fruits) {
+if (x == "ciku")
+break
+print(x)
+}
+```
+Example 7.6a return
+```{r}
+# A function that cubes a number and returns the result
+cubic <- function(x) {
+result <- x^3
+return(result)
+}
+
+y <- cubic(3) # Call the cube function
+print(y) # Print the result
+
+```
+Example 7.6b return
+```{r}
+# Return statement
+fun1 <- function(x, y)
+{ z <- x + 2*y
+return(z)
+#print(z)
+#z
+}
+fun1(2,4)
+```
+```{r}
+## return multiple values
+fun2 <- function(x, y)
+{ z1 <- x - y
+z2 <- x / y
+return(list(z1, z2)) }
+fun2(10, 3)
+fun2(10, 5)
+
+```
+Next
+```{r}
+# Defining vector
+x <- 1:10
+# Print even numbers
+for(i in x)
+{ if(i%%2 != 0)
+{ next #Jumps to next loop 
+}
+print(i)
+}
+```
+```{r}
+# Loop through the numbers 1 to 15
+for (i in 1:15) {
+# If i is even, skip to the next iteration
+if (i %% 2 == 0) {
+next
+}
+print(i) # If i is odd, print the value
+}
+```
+Example 7.6b next
+```{r}
+# Next statement
+x <- 4:11
+# Loop
+for (i in x) {
+if (i == 5)
+# test expression
+next
+print(i) }
+```
+```{r}
+i = 11; x <- 6
+# Loop
+while(i > x)
+{ if (i == 8)
+next
+print(i)
+i = i - 1 }
+```
+Example 7.9 No Default Arguments
+```{r}
+## no default argument
+box_vol <- function(length, width, height)
+{ area <- length*width
+volume <- area * height
+volume #output: print(volume), return(volume)
+}
+```
+
+```{r}
+box_vol(2,3.5)
+```
+```{r}
+box_vol(2,3.5,1)
+```
+```{r}
+## with default argument
+box_vol <- function(length, width, height=1)
+{ area <- length * width
+volume <- area * height
+#output
+volume
+#print(volume)
+#return(volume)
+#c(area=area,volume=volume)
+}
+box_vol(2,3.5) #use default value
+box_vol(2,3.5,2) #change default value
+```
+Example 7.11 cat(.), paste(.) and paste0(.)
+```{r}
+rm(list=ls())
+cat("R","is","good","for","statistical","analysis")
+result_cat <- cat("R","is","good","for","statistical","analysis")
+result_cat ## cannot store value
+result_paste <- paste("R","is","good","for","statistical","analysis")
+result_paste
+result_paste0 <- paste0("R","is","good","for","statistical","analysis")
+result_paste0
+result_paste0_collapse <- paste("R","is","good","for","statistical","analysis"
+,collapse=" ")
+result_paste0_collapse
+result_paste0_collapse <- paste(c("R","is","good","for","statistical","analysis")
+,collapse="=")
+result_paste0_collapse
+result_paste0_collapse <- paste(c("R","is","good","for","statistical","analysis")
+,collapse="-")
+result_paste0_collapse
+```
+Example 7.12a sub(.) and gsub(.)
+```{r}
+## sub and gsub functions
+x1 <- "rrzrzzwwwr" # character string
+sub("r", "i", x1)
+gsub("r", "i", x1)
+sub(c("r","z"), "i", x1)
+gsub(c("r","z"), "i", x1)
+## Replace Multiple Patterns (using |)
+## with sub & gsub
+x1
+sub("r|z", "i", x1)
+gsub("r|z", "i", x1)
+sub("w|z", "R", x1)
+gsub("w|z", "R", x1)
+```
+```{r}
+x2 <- "Thie is my old bag.
+I would like to give away the old bag"
+sub("old", "", x2)
+gsub("old", "", x2)
+sub("old", "new", x2)
+gsub("old", "new", x2)
+sub("old bag", "new laptop", x2)
+gsub("old bag", "new laptop", x2)
+sub("my|I", "my friend", x2)
+gsub("my|I", "my friend", x2)
+
+```
+```{r}
+x2 <- "Thie is my old bag.
+I would like to give away the old bag"
+sub("old", "", x2)
+gsub("old", "", x2)
+sub("old", "new", x2)
+gsub("old", "new", x2)
+sub("old bag", "new laptop", x2)
+gsub("old bag", "new laptop", x2)
+sub("my|I", "my friend", x2)
+gsub("my|I", "my friend", x2)
+```
+

@@ -1,0 +1,106 @@
+```{r}
+x <- 20; y <- 15
+x < y; x > y
+x <= 50; y >= 20
+x*y == 1500
+y != 10
+x1 <- c(50,8.7,25,105); y1 <- c(10,36,55,100)
+x1 <= y1
+```
+
+```{r}
+x2 <- c(50,6,25,7); y2 <- c(20,10,5,10)
+x2<=y2
+```
+```{r}
+x <- c(TRUE,FALSE,0,6,100); x
+y <- c(FALSE,TRUE,FALSE,TRUE); y
+!x
+x & y
+y1 <- c(FALSE,TRUE,FALSE,TRUE,TRUE); y1
+x & y1
+x && y
+x | y1
+x || y
+```
+```{r}
+## Generate number series
+v1 <- 1:100; v1
+v2 <- (1:100)/2; v2
+## Check elements belong to a vector
+55 %in% v1
+v2 %in% v1
+## Matrix multiplication
+mat1 <- matrix(1:9, nrow=3); mat1
+t_mat1 <- t(mat1); t_mat1 ##transpose a matrix
+mat1 %*% t_mat1
+```
+```{r}
+numeric("5")
+```
+```{r}
+mat1 <- matrix(1:16, nrow=2); mat1
+mat2 <- matrix(1:16, ncol=2); mat2
+mat3 <- matrix(1:100, nrow=2); mat3
+mat1 %*% mat2
+mat2 %*% mat1
+```
+
+```{r}
+x <- 10.5
+class(x)
+
+x <- 1000L
+class(x)
+
+x <- 9i + 3
+class(x)
+
+x <- "R is exciting"
+class(x)
+
+x <- TRUE
+class(x)
+```
+
+```{r}
+## Create vectors
+id.no <- c(21001, 20014, 20045, 21004); id.no
+new.id.no <- as.character(id.no); new.id.no
+class(id.no); class(new.id.no)
+myname <- c("Diana", "Devina", "Chong", "Hani"); myname
+class(myname)
+
+## c(.) concatenate
+v1 <- c(1,2,3,4,5,6,7,8,9,10); v1
+
+## : (colon) operator
+v2 <- 1:10; v2
+
+## seq(.)
+v3 <- seq(1,10, by=1); v3
+v4 <- seq(-100,100, by=.5); v4
+```
+
+```{r}
+x <- c(5.5, -10, 1/2, 8, sqrt(6)); x
+y <- c("I","like","R"); y
+z <- c(FALSE,TRUE,FALSE,FALSE,TRUE,TRUE); z
+## Mixed vector types will become character vector
+
+p <- c("Data science", 4:8, FALSE, TRUE); p
+## component extraction
+
+z1 <- seq(2,20, by=2)
+length(z1) # number of element in x
+
+z1[4] # the fourth element
+
+z1[1:3] # the first three elements in z
+
+z1[-2] # except the second element
+
+z1[z > 2] # list of element in z greater than 2
+
+```
+

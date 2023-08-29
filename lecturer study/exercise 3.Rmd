@@ -1,0 +1,77 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+Exercise 3
+
+Question a
+```{r}
+##file.choose()
+
+dt <- read.csv("C:/Users/user/OneDrive/Desktop/Sem4 slide/data science programming 2/weight_height_BSD2223_asal2.csv", header = TRUE)
+dt
+```
+Question b
+```{r}
+str(dt)
+```
+Question c
+```{r}
+head(dt,10)
+tail(dt,10)
+```
+Question d
+```{r}
+dt1 <- dt[,-1]
+dt1
+```
+
+Question e
+```{r}
+class(dt1[,c(4)])
+class(dt1[,c(5)])
+```
+```{r}
+
+transform(dt1,weight = as.numeric(weight)) 
+class(dt1[,c(4)])
+```
+```{r}
+# change the character columns to numeric
+dt1$weight = as.numeric(as.character(dt1$weight))
+dt1$height = as.numeric(as.character(dt1$height))
+print(sapply(dt1, class))
+```
+```{r}
+colSums(is.na(dt1))
+dt1[3, 4] <- 55
+dt1[59, 4] <- 55
+dt1[32, 5] <- 1.77
+dt1
+```
+```{r}
+library(dplyr)
+# if else condition of dataframe column  in R 
+dt2 <- mutate(dt1, height = ifelse(height >= 100, height/100, height))
+dt2
+```
+Question f
+```{r}
+# calculate BMI value
+
+dt3 <- dt2 %>% mutate(Section, bmi = weight / (height ^ 2)) %>% select(Section:weight, height, bmi)
+dt3
+```
+Question g
+```{r}
+# multiple if else condition of dataframe column  in R 
+
+dt_clean <- mutate(dt3, categories = ifelse(bmi < 18.5, "Underweight", 
+                                ifelse(bmi < 25, "Normal",
+                                       ifelse(bmi < 30, "Overweight",
+                                              ifelse(bmi < 35, "Obese", "Extremely Obese")))))
+dt_clean
+``````
+
+
+

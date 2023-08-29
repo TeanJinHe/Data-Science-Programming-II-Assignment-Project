@@ -1,0 +1,140 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Example 7.13a Recursive Function - Factorial
+```{r}
+factorial <- function(n) {
+if(n == 0) {
+return(1)
+} else {
+return(n * factorial(n-1))
+}
+}
+factorial(5)
+
+```
+Example 7.13b Recursive Function - Fibonacci
+```{r}
+fibonacci <- function(n) {
+if (n <= 1) {
+return(n)
+} else {
+return(fibonacci(n - 1) + fibonacci(n - 2))
+}
+}
+fibonacci(10)
+
+```
+Example 7.14a Replacement Function
+```{r}
+#Recall this example:
+x <- c(1,2,3,4)
+names(x)
+names(x) <- c("a", "b", "c", "d")
+x
+
+```
+```{r}
+#Alternatively, using replacement function
+y <- seq(5,10,length=4); y
+y <- "names<-"(y, value=c("a", "b", "c", "d"))
+y
+```
+Example 7.14b Replacement Function
+```{r}
+#Recall this example:
+x <- c(9, 22, 6, 15,44); x
+x[3] #value located at the 3rd. position
+"["(x,3) #replacement function
+```
+```{r}
+#Replacement function
+#subcription function
+y[1:3] <- 99; y
+```
+```{r}
+#replacement function
+y1 <- "[<-"(y, 1:3, value=99); y1
+y2 <- "[<-"(y, 1:3, value=97:99); y2
+```
+Example 7.15a replace Single Value or Multiple Values
+```{r}
+#define vector of values
+dt <- seq(4, 30, length=8); dt
+
+```
+```{r}
+#replace value in position 6
+dt_new <- replace(dt, 6, 99); dt_new
+```
+```{r}
+#replace value in multiple positions
+dt_new <- replace(dt, c(2,6), 99); dt_new
+dt_new <- replace(dt, c(2,6,8), c(99,100,101)); dt_new
+dt_new <- replace(dt, c(2,6,8), 99:101); dt_new
+```
+Example 7.15b replace Values in Data Frame
+```{r}
+df <- airquality
+df2 <- head(df); df2
+```
+```{r}
+is.na(df2) #check ’NA’ values
+which(is.na(df2)) # location of NA values
+df2[is.na(df2)] <- 0 #replace NA values with zero
+df2
+```
+```{r}
+#calculate mean of data with NA values
+df <- airquality
+mean_ozone <- mean(df$Ozone); mean_ozone
+mean_ozone <- mean(df$Ozone, na.rm = TRUE); mean_ozone
+
+```
+```{r}
+#replace all NA values in Ozone column with mean
+df$Ozone[is.na(df$Ozone)] <- mean(df$Ozone, na.rm = TRUE)
+head(df,10); tail(df,10)
+
+```
+```{r}
+#display ozone data without decimals
+df$Ozone <- round(df$Ozone, digits = 0)
+head(df,10); tail(df,10) 
+```
+Example 7.15c replace Negative Values in Data Frame
+```{r}
+#define data frame
+df3 <- data.frame(x = seq(10,40,by=5),
+y = c(4,8,-12,16,5,-1,NA))
+df3
+```
+```{r}
+#replace negative values in column ’y’ with 0
+df3$y <- replace(df3$y, df3$y < 0, 0)
+df3
+```
+```{r}
+#replace negative values in column ’y’ with NA
+df3 <- data.frame(x = seq(10,40,by=5),
+y = c(4,8,-12,16,5,-1,NA))
+df3$y <- replace(df3$y, df3$y < 0, NA)
+df3
+```
+Example 7.16a Create Own Operators
+```{r}
+#Create operator: %x3y%
+"%x3y%" <- function(x,y) return(3*x+y)
+2 %x3y% 2
+3 %x3y% -2
+```
+```{r}
+#Create operator: %power%
+"%power%" <- function(x,y) (x^y)
+2 %power% 2
+3 %power% -2
+
+```
+

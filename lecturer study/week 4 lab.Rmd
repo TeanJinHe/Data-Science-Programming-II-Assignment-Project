@@ -1,0 +1,194 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+Example 5.1 - Create a Data Frame
+```{r}
+## Create Data frame
+v1 <- seq(2,10,length=4)
+chr1 <- c("R","Python","Excel","Tableau")
+logic1 <- c(TRUE,FALSE,TRUE,FALSE)
+df_1 <- data.frame(v1, chr1, logic1)
+df_1
+str(df_1)
+class(df_1)
+
+Id_No <- c("SD2001","SD2002","SD2003","PE2007","PE2008")
+Faculty <- c("PSM","PSM","PSM","FIM","FIM") ## character
+Entry_level <- c("Matric","STPM","STPM","Matric","STPM")
+BMI <- c(22.5, 24.2, 27.6, 30.7, 18.5)
+df_2 <- data.frame(Id_No,Faculty,Entry_level,BMI)
+df_2
+str(df_2)
+class(df_2)
+data.frame()
+
+```
+Example 5.2 - Convert List to Data Frame
+```{r}
+## Convert list to Data frame
+Id_No <- c("SD2001","SD2002","SD2003")
+Faculty <- c("PSM","PSM","PSM") ## character
+Entry_level <- c("Matric","STPM","STPM")
+BMI <- c(22.5, 24.2, 27.6)
+list_3 <- list(item1 = Id_No,item2 = Faculty,
+item3=Entry_level,item4=BMI)
+as.data.frame(list_3)
+list_3 <- list(Id_No = Id_No,Faculty = Faculty,
+Entry_level=Entry_level,BMI=BMI)
+as.data.frame(list_3)
+
+```
+Example 5.3 - Convert Vector and Matrix
+```{r}
+## Vector to data frame
+v2 <- seq(0,19,2) ## generate even numbers
+v2 # vector
+as.data.frame(v2) # vector to data frame
+
+## Matrix to data frame
+m2 <- matrix(v2, nrow=2) ## matrix
+m2 # matrix
+as.data.frame(m2) # matrix to data frame
+
+```
+Example 5.4 - Naming Data Frame
+```{r}
+m3 <- matrix(seq(1,20, by=2), nrow=5)
+m3
+df_3 <- as.data.frame(m3)
+df_3
+rownames(df_3) <- c("row1","row2","row3","row4","row5")
+colnames(df_3) <- c("col1", "col2")
+df_3
+attributes(df_3)
+class(df_3)
+
+```
+```{r}
+##testing
+#a.Create data frame with the following  criteria
+#-4 variables
+#-5 observation for each variable
+#numeric, character
+
+com <- c("Asus","ROG","MSI","Legion","Predator")
+price <- c(2000,4000,4500,5000,3000)
+country <- c("HK","TW","MY","CH","MY")
+status <- c("work","gaming","gaming","gaming","gaming")
+df4 <- data.frame(com,price,country,status)
+df4
+str(df4)
+class(df4)
+
+
+```
+Built-in Data in R - mtcars
+```{r}
+data() ## all built-in data in R
+data("mtcars")
+dt <- mtcars
+head(dt); tail(dt)
+str(dt); class(dt)
+```
+Example 5.5 - Access & Extract Data using [ ]
+```{r}
+dt <- mtcars
+dt_mpg <- dt[,1]
+dt_mpg
+dt_mpg <- dt$mpg
+dt_mpg
+# Extract row 1 to 15 and column 1,3 & 6
+dt1 <- dt[1:15, c(1,3,6)] ; dt1
+## Extract mpg > 25
+dt[dt$mpg > 25, ]
+## Extract 15 <mpg< 20
+dt[dt$mpg > 15 & dt$mpg < 20, ]
+```
+Example 5.6 - Extract Data using subset(.) Function
+```{r}
+## subset function
+subset(dt, mpg > 15 & cyl == 4, c("mpg", "cyl", "wt"))
+subset(dt, (mpg >15 & mpg < 20) & cyl == 8,
+c("mpg", "cyl", "wt"))
+```
+Example 5.7 - Merging Data Frame
+```{r}
+## Create the data frame.
+birth_date1 <- data.frame(
+id = c (1:5),
+name = c("Ayra","Sara","Aisy","Aishah","Yusuf"),
+height_m = c(1.2,1.1,1.3,1.3,1.1),
+birth_date = as.Date(c("2013-12-28","2015-05-15",
+"2015-05-02","2015-05-25","2016-12-13")),
+stringsAsFactors = FALSE
+)
+birth_date1
+birth_date2 <- data.frame(id = 6:9,
+name = c("Warda","Lutfi","Mika","Alma"),
+height_m = c(1,0.9,0.8, 0.2),
+birth_date = as.Date(c("2017-08-31", "2019-09-30",
+"2020-02-19", "2023-01-04")),
+stringsAsFactors = FALSE
+)
+birth_date2
+## Merge 2 data frames
+## rbind(.) - row bind; cbind(.) - column bind
+rbind(birth_date1, birth_date2)
+## Add new column
+all_birth <- rbind(birth_date1, birth_date2)
+all_birth$gender <- c("F","F","M","F","M","F","M","M","F")
+all_birth
+```
+Example 5.8 - apply(.) Function
+```{r}
+## apply(.) function on data frame
+dt <- mtcars
+apply(dt, 2, mean)
+mean(dt$mpg)
+apply(dt[,c(1,3,6)], 2, mean)
+
+```
+Example 5.9 - lapply(.) Function
+```{r}
+## lapply(.) function on data frame
+dt3 <- airquality[,c(1:4)]
+is.na(dt3)
+sum(is.na(dt3))
+which(is.na(dt3))
+lapply(dt3, mean)
+lapply(dt3, mean, na.rm=TRUE)
+
+```
+Example 5.10 - sapply(.) Function
+```{r}
+## sapply(.) function on data frame
+dt3 <- airquality[,c(1:4)]
+is.na(dt3)
+sum(is.na(dt3))
+which(is.na(dt3))
+sapply(dt3, mean)
+sapply(dt3, mean, na.rm=TRUE)
+dt3[is.na(dt3)] <- colMeans(dt3,na.rm=TRUE)
+dt3
+dt3 <- airquality[,c(1:4)]
+dt3[is.na(dt3)] <- 9999 # replace NA with 0
+dt3
+```
+Example 5.11 Tibble versus Data Frame
+```{r}
+## Packages: tidyverse or tibble
+## or install.packages("tibble")
+install.packages("tidyverse")
+library(tidyverse)
+dt4 <- iris
+head(dt4); tail(dt4)
+str(dt4)
+class(dt4)
+dt4_tbl <- as_tibble(dt4)
+dt4_tbl
+dt5_tbl <- tibble(x = 1:10,y = 2, z = x ^ 2 - y/2)
+dt5_tbl
+```
+
+

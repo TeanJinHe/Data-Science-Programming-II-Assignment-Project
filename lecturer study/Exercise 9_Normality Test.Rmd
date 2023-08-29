@@ -1,0 +1,111 @@
+---
+title: "Exercise 9 - Normality Test"
+output: html_notebook
+---
+
+WONG ZI MING
+SD21037
+02G 
+
+
+```{r}
+dt <- read.csv("C:\\UMP SEM 4\\BSD2223 DATA SCIENCE PROGRAMMING II\\Exercises\\dt_clean.csv", header=TRUE)
+dt
+```
+
+a)
+```{r}
+# descriptive statistic
+get_mode <- function(x) {
+  tbl <- table(x)  # Create a frequency table
+  mode <- as.numeric(names(tbl))[tbl == max(tbl)]  # Find the value(s) with maximum frequency
+  return(mode)
+}
+
+# Call the custom function to find the mode of the height variable
+mode_height <- get_mode(dt$height); mode_height
+
+mean(dt$height)
+
+median(dt$height)
+
+
+```
+
+```{r}
+range(dt$height)
+
+var(dt$height)
+
+sd(dt$height)
+
+# coefficient of variation
+cv <- sd(dt$height) / mean(dt$height) * 100
+cv
+```
+
+b)
+```{r}
+library(psych)
+describe(dt$height)
+hist(dt$height, main="Normal dist. mean=0, std=1")
+```
+
+
+
+c)
+```{r}
+# histogram
+par(mar = c(3, 3, 2, 2))
+hist(dt$height, col="blue", border="black",
+     prob = TRUE,xlab = "height",
+     main = "Height: Histogram and PDF")
+
+describe(dt$height)
+
+```
+
+```{r}
+# Q-Q plot
+plot(dt$height)
+lines(density(dt$height),lwd = 2,col = "red")
+qqnorm(dt$height, main='Normal')
+qqline(dt$height, col="red")
+
+```
+
+d)
+```{r}
+# Shapiro-Wilk
+shapiro.test(dt$height)
+
+```
+
+```{r}
+# Kolmogorov-Smirnov
+ks.test(dt$height, 'pnorm')
+```
+
+e)
+```{r}
+# Apply logarithmic transformation
+transformed_height <- log(dt$height)
+
+# Check the distribution of transformed data
+hist(transformed_height, col = "blue", border = "black", main = "Transformed Height Data")
+
+# Check normality using a normal probability plot
+qqnorm(transformed_height)
+qqline(transformed_height)
+
+##OR
+
+# Shapiro-Wilk
+shapiro.test(transformed_height)
+
+# Kolmogorov-Smirnov
+ks.test(transformed_height, 'pnorm')
+
+```
+
+

@@ -1,0 +1,204 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+example 4,1 create a list
+```{r}
+v1 <- seq(0,20,2) ## generate even numbers
+chr1 <- c("Now I like R", "R is awesome")
+logic1 <- c(TRUE, FALSE, TRUE, FALSE)
+list_1 <- list(v1, chr1, logic1)
+list_1
+
+v2 <- seq(0,19,2) ## generate even numbers
+m2 <- matrix(v2, nrow=2) ## matrix
+chr2 <- c("Now I know R and Python", "R and Python are BFF")
+logic2 <- c(TRUE, FALSE, TRUE, FALSE)
+list_2 <- list(m2, chr2, logic1)
+list_2
+
+```
+Example 4.2 - Naming List
+```{r}
+v2 <- seq(0,19,2) ## generate even numbers
+m2 <- matrix(v2, nrow=2) ## matrix
+chr2 <- c("Now I know R and Python", "R and Python are BFF")
+logic2 <- c(TRUE, FALSE, TRUE, FALSE)
+list_2 <- list(m2, chr2, logic2)
+
+names(list_2) <- c("Matrix", "Character", "Logical")
+list_2
+
+```
+Example 4.3 - Accessing List
+```{r}
+v2 <- seq(0,19,2) ## generate even numbers
+m2 <- matrix(v2, nrow=2) ## matrix
+chr2 <- c("Now I like R", "R is awesome")
+logic2 <- c(TRUE, FALSE, TRUE, FALSE)
+list_2 <- list(m2, chr1, logic1)
+
+names(list_2) <- c("Matrix", "Character", "Logical")
+list_2
+```
+Example 4.4 - Merging List
+```{r}
+##Example 4.4 - Merging List
+merge_list <- c(list_1, list_2)
+merge_list
+
+merge_list[[2]]
+merge_list[[5]]
+merge_list$Character
+
+#test
+merge_list[[3]]
+merge_list[[4]]
+```
+Example 4.5 - Deleting and Adding List
+```{r}
+## Deleting and Adding Element in the List
+## Deleting element from the list
+merge_list[[1]] <- NULL
+merge_list
+
+## Adding new element in a list
+merge_list[[1]] <- "Updated information"
+merge_list
+```
+Example 4.6 - Convert List to Vector
+```{r}
+## Convert List to Vector
+v1 <- seq(0,20,2) ## generate even numbers
+chr1 <- c("Now I like R", "R is awesome")
+logic1 <- c(TRUE, FALSE, TRUE, FALSE)
+list_1 <- list(v1, chr1, logic1)
+list_1
+
+unlist(list_1[1])
+
+```
+Example 4.7 - Special List
+```{r}
+## Special List
+letters ##small letters
+letters[1:5]
+
+LETTERS ##capital letters
+LETTERS[6:15]
+
+month.abb ##month abbreviation
+month.abb[3:12]
+
+month.name ##month fullname
+month.name[4:8]
+```
+Example 4.8 - apply(.) Function
+
+Syntax: apply(X, MARGIN, FUN) and input data in the form of
+data frame, matrix or a multi-dimensional array.
+```{r}
+m <- matrix((1:20), nrow=4, byrow=TRUE)
+m
+
+apply(m, 1, min) ## 1 refers to row
+apply(m, 1, max)
+apply(m, 1, mean)
+
+apply(m, 2, sum) ## 2 refers to column
+apply(m, 2, cumsum) ## cumulative sum
+apply(m, 2, range)
+
+## custom made function
+mn2 <- function(x) mean(x)/2
+
+apply(m, 1, mn2)
+apply(m, 1, mean)
+
+```
+Example 4.9 - lapply(.) Function
+
+Syntax: lapply(X, FUN) (l=list) and input data in the form of
+data frame, vector and a list. The function applies element-wise
+for lists and vectors and column-wise for data frames.
+
+```{r}
+## Function on List
+x <- list(a = 1:5, beta = exp(-2:2),
+logic = c(TRUE,TRUE,FALSE,FALSE, TRUE, FALSE))
+x
+
+# compute for each list element
+lapply(x,sum) #sum
+lapply(x,mean) #mean
+lapply(x,median) #median
+lapply(x,quantile) #quartiles
+
+## custom made code
+add_two <- function(x) x+2
+lapply(x,add_two) #sum and add 2
+```
+Example 4.10 - sapply(.) Function
+
+Syntax: sapply(X, FUN) (s=simplified) and input data in the
+form of data frame, vector and a list. The function applies
+element-wise for lists and vectors and column-wise for data
+frames.
+
+```{r}
+## Function on List
+v1 <- c(rep(2,3), seq(10,20, length=5))
+v1
+
+sapply(v1, mean) ## not working, element-wise
+sapply(v1, add_two)
+x <- list(a = 1:5, beta = exp(-2:2),
+logic = c(TRUE,TRUE,TRUE,FALSE))
+x
+
+sapply(x, mean)
+sapply(x, add_two)
+```
+Example 4.11 - List within a List
+```{r}
+## Recursive List
+list_3 <- list(x3 = c(2,4), y3 = 1:5)
+list_3
+list_4 <- list(x4 = rep(1,2), y4 = seq(2,4, length=4))
+list_4
+
+new_list <- list(list_3, list_4)
+new_list
+
+new_list[[2]] ## extract list 2
+new_list[[1]]$y3 ## extract list 1, element y3
+new_list[[2]]$x4 ## extract list 2, element x4
+```
+Example 4.13 - Access List within a List
+```{r}
+## extract list 1, element y3
+new_list[[1]]$y3
+new_list[[1]][2]
+
+## extract list 2, element x4
+new_list[[2]]$x4
+new_list[[2]][1]
+
+## extract list 1, element 1 and element 1
+new_list[[1]]$x3[1]
+new_list[[1]][[1]][1]
+new_list[[1]][[1]][2]
+
+```
+Example 4.14 - Access List within a List
+```{r}
+## extract list 2, element 2 and element 3
+new_list[[2]][[2]][3]
+## extract list 2, element 1 and element 1
+new_list[[2]]$x4[1]
+new_list[[2]][[1]][1]
+## extract list 2, element 2 and element 3
+new_list[[2]][[2]][3]
+```
+

@@ -1,0 +1,29 @@
+Question 1
+```{r}
+a <- 2.3
+(6*a+42)/3^(4.2-3.62)
+```
+Question 2
+```{r}
+log(12.43)
+log10(12.43) #log to base 10
+log2(12.43) #log to base 2
+log(x=12.43, base=2) # alternative log to base 2
+sqrt(12.43)
+exp(12.43)
+```
+Question 3
+```{r}
+d <- 20
+r <- d/2
+area_circle <- pi*(r^2)
+area_circle
+```
+Question 4
+```{r}
+weight <- c(69,63,57,55,47,48,66,50,49,45)
+weight_sort = sort(weight, decreasing = FALSE)
+weight_sort[weight_sort<50]
+```
+
+

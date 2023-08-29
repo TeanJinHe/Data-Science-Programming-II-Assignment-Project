@@ -1,0 +1,174 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Example 6.1 - Character versus Factor
+```{r}
+## Create Factor
+direction <- c("East","West","North","North")
+f1 <- factor(direction)
+f1
+class(f1)
+## East=1, North=2, West=3, South=4
+str(f1)
+
+## include levels
+f2 <- factor(direction, levels=c("North","South",
+"East","West"))
+f2
+
+## Use abbreviation for the labels
+f3 <- factor(direction, levels=c("North","South",
+"East","West"),labels = c("N","S","E","W"))
+f3
+
+```
+```{r}
+#testing
+## Create Factor
+Phone <- c("Iphone","Samsung","Nokia","Huawei","Vivo")
+f1 <- factor(Phone)
+f1
+class(f1)
+## Iphone=1, Samsung=2, Nokia=3, Huawei=4, Vivo=5
+str(f1)
+## include levels
+f2 <- factor(Phone, levels=c("Nokia","Huawei",
+"Vivo","Iphone","Samsung"))
+f2
+## Use abbreviation for the labels
+f3 <- factor(Phone, levels=c("Iphone","Samsung",
+"Nokia","Huawei","Vivo"),labels = c("I","S","N","H","V"))
+f3
+```
+Example 6.2 - Create a Factor
+```{r}
+## Create Factor
+direction <- c("East","West","North",
+"North","East","East")
+f1 <- factor(direction)
+f1
+class(f1)
+## East=1, North=2, West=3, South=4
+str(f1)
+
+## include levels
+f2 <- factor(direction, levels=c("North","South",
+"East","West"))
+f2
+
+## Use abbreviation for the labels
+f3 <- factor(direction, levels=c("North","South",
+"East","West"),labels = c("N","S","E","W"))
+f3
+```
+
+Example 6.3 - Converting Character Factors
+```{r}
+direction <- c("East","West","North","North")
+f1 <- factor(direction)
+# change factor as character
+as.character(f1)
+# change factor as numeric
+# correspond to factor levels
+as.numeric(f1)
+```
+Example 6.4 - Converting Numeric Factors
+```{r}
+f_number <- c(4,7,2,8,7,2)
+f3 <- factor(f_number)
+f3
+# change factor as character
+as.character(f3)
+# change factor as numeric
+# correspond to factor levels
+as.numeric(f3)
+
+```
+Example 6.5 - Vector, Factor and Ordered Factor
+```{r}
+## Vector
+medal <- c("gold","silver","bronze","gold","silver")
+table(medal)
+
+## Factor
+f_medal <- factor(medal, levels=c("bronze",
+"silver","gold"))
+f_medal
+table(f_medal)
+
+## Factor - ordered
+f_medal_ordered <- factor(medal, levels=c("bronze",
+"silver","gold"), ordered=TRUE)
+f_medal_ordered
+table(f_medal_ordered)
+
+```
+
+Example 6.5 - Categorise Data
+```{r}
+weight <- c(50,72,55,53.9,72,78,71,46,
+55,57,55,87,60,60,78,46,58,
+56,60,62,42,43,73,50)
+
+## by default right value inclusive
+cut(weight, breaks = c(0,50,65,Inf))
+cut(weight, breaks = c(0,50,65,Inf), right=FALSE)
+
+lbs <- c("weight<50kg", "50kg<=weight<=65kg", "weight>65kg")
+weight_group <- cut(weight, breaks = c(0,50,65,Inf),labels=lbs)
+weight_group
+
+levels(weight_group) ## number of group
+
+## combine weight data with group
+cbind(weight,weight_group)
+
+```
+```{r}
+#test
+##file.choose
+dt <- read.csv("weight_height_clean.csv")
+head(dt)
+dt_height <- dt$Height..m.; head(dt_height)
+dt_height <- dt[,2]; head(dt_height)
+
+##to categories height
+cut_height <- cut(dt_height,breaks = c(0,1.5,1.6,Inf)); cut_height
+cut_height <- cut(dt_height,breaks = c(0,1.5,1.6,Inf), right = FALSE); cut_height
+```
+
+Example 6.6 – Two-Way Frequency Table
+```{r}
+#create data frame
+df <- data.frame(player = c('Imran', 'Quan', 'Aiman',
+'Shahrul', 'Sharveen', 'Abraham'),
+position = c('X', 'X', 'Y', 'X', 'Y', 'X'),
+points = c(3, 1, 0, 2, 2, 0))
+df
+
+#freq. table for position variable
+table(df$position)
+#freq. table of proportions for position variable
+prop.table(table(df$position))
+# 2-way freq. table for position & points variables
+table(df$position, df$points)
+#freq. table of proportions for position & points variable
+prop.table(table(df$position, df$points))
+```
+Example 6.7 – Two-Way Frequency Table
+```{r}
+## clean weight and height data & BMI class
+## save(dt3, file = "dt_BMIclass.RData")
+dt_bmiclass <- dt3
+head(dt_bmiclass)
+tail(dt_bmiclass)
+table(dt_bmiclass$bmi_class)
+## 2-way freq. table
+table(dt_bmiclass$Gender,dt_bmiclass$bmi_class)
+## 2-way freq. table
+table(dt_bmiclass$Section,dt_bmiclass$bmi_class)
+
+```
+

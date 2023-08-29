@@ -1,0 +1,36 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+Exercise 2
+
+Question a
+```{r}
+v1 <- seq(5,11, length=7);v1
+v2 <- c(3,-1,4.5,-37)
+rep(v2,times=2)
+v3 <- sqrt(4+(2/3));v3
+v4 <- c(v1,v2,v3);v4
+```
+Question b
+```{r}
+v5 <- v4[c(5,8,12)];v5
+```
+Question c
+```{r}
+length(v4)
+x <- v4[-c(1,12)]
+x
+```
+Question d
+```{r}
+v6 = sort(v4, decreasing = TRUE);v6
+```
+Question e
+```{r}
+x1 <- append(x,rep(7,times=2),after=2)
+x2 <- append(x1,rep(10,times=4),after=7)
+x3 <- append(x2,rep(-37,times=1),after=16)
+x3
+
+```

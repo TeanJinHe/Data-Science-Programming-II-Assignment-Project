@@ -1,0 +1,247 @@
+---
+title: "CHAPTER 9: VISUALISATION IN R"
+output: html_notebook
+---
+
+
+```{r}
+dt <- read.csv("C:\\Users\\user\\OneDrive\\Desktop\\Sem4 slide\\data science programming 2\\dt_clean.csv", header=TRUE)
+dt
+```
+
+
+1. Bar Plot
+• Bar plots are very useful to represent the count of any
+categorical variables.
+
+• Other related graphs for categorical data in R are spine plots
+or mosaic plots.
+
+
+Example 9.1 Bar Plot
+```{r}
+## Barplot
+barplot(dt$weight, ylim=c(0,100),names=dt$ID_No,
+ylab="weight(kg)", xlab="ID_No.",
+main="Weight of Students", col=c(2,5,8))
+
+barplot(dt$weight, xlim=c(0,100),
+horiz=TRUE, names=dt$ID_No,
+ylab="ID_No.", xlab="weight(kg)",
+main="Weight of Students", col=c(2,5,8))
+
+```
+
+
+2. Dot Plot
+• A Dot Plot is a graphical display of data using dots plotted on
+a graph with an x-axis and y-axis.
+
+• A dot plot is also known as a strip plot or dot chart.
+
+• These types of charts are used to graphically depict certain
+data trends or groupings.
+
+
+Example 9.2 Dot Plot
+```{r}
+## Dot chart
+dotchart(dt$weight, ylim=c(0,100),labels=dt$ID_No,
+xlab="Weight(kg)", ylab="ID. No.",
+main="Weight of Students", col='blue', pch=16, cex=1.2)
+```
+
+
+3. Pie Chart
+• A pie chart, also known as a circle chart, is a circular diagram
+that resembles a pie.
+
+• A pie chart shows how a total amount is divided between
+levels of a categorical variable as a circle divided into radial
+slices.
+
+Example 9.3 Pie Chart
+```{r}
+## Pie chart
+# Calculate the percentage for each section
+
+freq_section <- round(prop.table(table(dt$Section))*100, 2)
+
+section_labels <- round(prop.table(table(dt$Section))*100, 2)
+
+# Concatenate a ’%’ char after each value
+section_labels <- paste(section_labels, "%", sep="")
+
+pie(freq_section, labels=section_labels, col = rainbow(9),
+    main="Percentage of Students by Section")
+
+# Create a legend at the right
+legend(1.5, 0.5, c("01G","02G","03G"), cex=0.8,
+fill=rainbow(9))
+```
+
+
+4. Histogram
+• Histogram shows how the data is distributed.
+
+• It helps to understand the underlying statistical distribution of
+the data.
+
+• The shape of distribution of data can either be symmetric or
+skewed.
+
+• Also can detect the existence of outliers.
+
+Example 9.4a Histogram
+```{r}
+## Histogram
+hist(dt$weight, xlab="Weight(kg)", ylab="ID. No.",
+main="Students weight", col="cyan")
+
+```
+
+Example 9.4b Histogram and Density
+```{r}
+x <- dt$weight
+hist(x, freq = FALSE, main = "Histogram and density")
+
+# Calculate density
+dx <- density(dt$weight)
+
+# Add density
+lines(dx, lwd = 3, col = "red") ##ecdf
+```
+
+
+5. Box plots
+• Box plots are designed to represent some characteristics of the
+data like dispersion or skewness and also to identify outliers.
+
+• Box plot is also known as box and whiskers plot.
+
+• It presents five number summary which include minimum
+value, quartiles (first, second and third) and the maximum
+value.
+
+• The location of medium in the box will determine the
+skewness of the data distribution. If it is located in the
+middle, then the data is symmetric. If the medium is close to
+the first quartile, the data is right skewed. Otherwise, the
+data is left skewed.
+
+• The box plot also shows the existence of outliers.
+
+Example 9.5a Box Plots
+```{r}
+## Box plot
+boxplot(dt$weight~dt$Section,xlab="Section",ylab="Weight(kg)",
+main="Section No. vs. Weight", col=c("blue","cyan","pink"))
+
+```
+
+Example 9.5b Notch Box Plots
+```{r}
+boxplot(dt$weight~dt$Gender,ylab="Gender",xlab="Weight(kg)",
+main="Weight(kg) by Gender", col=c("cyan","pink"),
+horizontal=TRUE, notch=TRUE, varwidth = TRUE)
+
+```
+
+
+6. Scatter Plots
+• Scatter plots or is also known as dispersion graphs. The
+scatter plots are used to check the relation between two
+variables or three variables for 3D scatter plots.
+• Scatter matrix or pairwise comparison can be used to check
+the relationship between many variables.
+
+Example 9.6a Scatter Plot
+```{r}
+## Scatter plots
+plot(dt$weight,dt$bmi,xlab="Weight(kg)",ylab="BMI",
+main="BMI vs. Weight", col="blue",pch=16, cex=1.5)
+abline(lm(dt$bmi~dt$weight), col = "red", lwd = 2)
+```
+Example 9.6b 3D Scatter Plot
+```{r}
+## 3D scatter plot
+library(scatterplot3d)
+trees
+attach(trees)
+scatterplot3d(Girth, Height, Volume,
+main = "3D Scatterplot of trees dataset")
+
+```
+
+Example 9.6c Scatter Plot Matrix
+```{r}
+#Scatter plot Matrices
+pairs(trees, main = "Scatter plot matrix for trees data")
+
+```
+
+
+9.2 Graphical User Interface Development
+• GUI is the acronym for graphical user interface, the interface
+that allows users to interact with electronic devices, such as
+computers, laptops, smartphones and tablets, through graphical
+elements (icons, buttons, and menus).
+
+• GUI is a software application programming for human-computer
+interaction, replacing text-based commands with user-friendly
+actions. Its goal is to present the user with decision points that
+are easy to find, understand and use. In other words, GUI lets
+you control your device with a mouse, pen or even your finger.
+
+• To count as “successful” interactivity, the dashboard interface
+design has to be human-centric.
+
+```{r}
+
+```
+
+
+
+
+Dashboard and GUI Application
+• In information technology (IT), the term dashboard refers to
+a graphical user interface (GUI) that organizes and presents
+information in a format that is easy to read and interpret.
+
+• In business computer information systems, a dashboard is a
+type of graphical user interface which often provides at-a-glance
+views of key performance indicators (KPIs) relevant to a particular objective or business process. In other usage, ”dashboard”
+is another name for ”progress report” or ”report” and considered a form of data visualization.
+
+
+
+R packages to develop Dashboard and GUI
+In R, there are several packages available for developing GUI and
+dashboard applications. Here are a few popular ones:
+
+1. RShiny: RShiny is a widely used R package for building web
+applications with interactive user interfaces. It allows you to
+create web-based GUIs and dashboards using R code. RShiny
+provides a reactive programming framework that facilitates easy
+integration of R code and interactive components such as sliders, input fields and plots.
+
+2. RStudio Dashboard: RStudio provides its own set of packages for building dashboards. The flexdashboard package allows
+you to create flexible and interactive dashboards using R Markdown. It supports various layout options, including multiple
+panels, tabs, and responsive design. You can embed interactive
+visualizations and data-driven content in your dashboards.
+
+3. shinydashboard: The shinydashboard package is an extension
+of the Shiny package and provides a framework for creating
+dashboards with a more structured layout. It offers predefined
+dashboard components such as sidebars, boxes, and tabs, which
+help in organizing the content of your dashboard. You can easily
+add interactive elements and visualizations to create dynamic
+dashboards.
+
+4. RGL: If you are looking for 3D graphics capabilities in your
+GUI, the rgl package is a good option. It provides functions for
+creating interactive 3D plots, scenes, and animations. You can
+incorporate these 3D visualizations into your GUI or dashboard
+application.
+
+

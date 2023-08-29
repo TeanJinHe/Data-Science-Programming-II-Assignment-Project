@@ -1,0 +1,71 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+DATA SCIENCE PROGRAMMING II (BSD2223)
+
+LAB REPORT 2
+NAME:         TEAN JIN HE
+MATRIC ID:    SD21063
+SECTION:      01G
+
+QUESTIONS 1
+```{r}
+#a)
+##A vector is a list of numbers that can be in a row or column while a matrix is an array of numbers that can be one or more either columns or rows. A vector has magnitude and direction, however a matrix can represent linear transformations, such as rotations or scaling.
+
+#b)
+##Conformable in matrix multiplication is referring to two matrices have the same dimensions (number of rows and number of columns). For example, if A is an m x n matrix and B is an s x p matrix, then n needs to be equal to s for the matrix product AB to be defined. So, we say that A and B are conformable for multiplication (in that sequence).
+```
+
+Questions 2
+```{r}
+#a)
+v1 <- c(1,7,0,1,-3,-2,2,4,1,0)
+A <- matrix(v1, nrow = 5, ncol = 2)
+A
+v2 <- c(2,0,5,1,2,3,1,1,1,4,-1,4,-2,1,1,1,2,0,1,0,0,5,3,1,-1)
+B <- matrix(v2, nrow = 5, ncol = 5)
+B
+```
+```{r}
+#b)
+A_new <- A
+A_new[, 1] <- sort(A_new[, 1])
+A_new
+```
+```{r}
+#c)
+A_new %*% B
+```
+```{r}
+#d)
+diag(B)
+```
+```{r}
+#e)
+inv_B <- solve(B)
+inv_B
+```
+```{r}
+#f)
+##1. Matrix B is a square matrix.
+dim(B)
+
+##2. Determinant matrix B must not zero.
+det(B)
+
+##3. BB^(-1)=I
+I <- B %*% inv_B
+I
+Id_B <- round(I, 4)
+Id_B
+```
+```{r}
+#g)
+B_t <- t(B) #the transpose of B
+B_t
+
+B %*% B_t #multiply B and transpose of B
+```
+
