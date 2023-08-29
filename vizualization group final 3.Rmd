@@ -1,0 +1,303 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(shiny)
+library(ggplot2)
+library(dplyr)
+library(plotly)
+library(reshape2)
+library(ggrepel)
+
+# Load the dataset from CSV
+newecommerce <- read.csv("C:\\Users\\user\\OneDrive\\Desktop\\Sem4 slide\\data science programming 2\\group assignment\\newecommerce.csv", header = TRUE)
+
+# Convert InvoiceDate column to POSIXct format
+newecommerce$InvoiceDate <- as.POSIXct(newecommerce$InvoiceDate, format = "%m/%d/%Y %H:%M")
+
+# Define UI
+ui <- fluidPage(
+  # Dashboard title
+  tags$head(
+    tags$style(
+      HTML(
+        "
+        .dashboard-title {
+          font-family: 'Arial', sans-serif;
+          font-size: 36px;
+          font-weight: bold;
+          color: blue;
+          text-align: center;
+          margin: 20px 0;
+        }
+        "
+      )
+    )
+  ),
+  div(class = "dashboard-title", "Customer Segmentation E-Commerce Analysis Dashboard"),
+  
+  # Sidebar layout
+  sidebarLayout(
+    sidebarPanel(
+      # Input for selecting country
+      conditionalPanel(
+        condition = "input.tabs == 'Page 1'",
+        selectInput("Country", "Select Country:", choices = unique(newecommerce$Country), multiple = TRUE),
+        br(),
+        actionButton("selectAllCountries", "Select All"),
+        actionButton("clearSelectionCountries", "Clear Selection")
+      ),
+      
+      # Input for selecting month
+      conditionalPanel(
+        condition = "input.tabs == 'Page 2'",
+        selectInput("Month", "Select Month:", choices = unique(format(as.Date(newecommerce$InvoiceDate, format = "%m/%d/%Y"), "%B")), multiple = TRUE),
+        br(),
+        actionButton("selectAllMonths", "Select All"),
+        actionButton("clearSelectionMonths", "Clear Selection")
+      ),
+      # Input for selecting description
+      conditionalPanel(
+        condition = "input.tabs == 'Page 3'",
+        selectInput("description_input", "Select Description:", choices = unique(newecommerce$Description), multiple = TRUE),
+        br(),
+        actionButton("selectAllDescriptions", "Select All"),
+        actionButton("clearSelectionDescriptions", "Clear Selection")
+      )
+    ),
+    
+    mainPanel(
+      # Main panel content
+      
+      # Page 1: 
+      tabsetPanel(
+        id = "tabs",
+        tabPanel(
+          "Page 1",
+          fluidRow(
+            column(width = 6, plotlyOutput("customer_plot")),
+            column(width = 6, plotlyOutput("revenue_plot")),
+            column(width = 12, plotlyOutput("boxplot_totalrevenue"))
+          )
+        ),
+        
+        # Page 2:
+        tabPanel(
+          "Page 2",
+          fluidRow(
+            column(width = 12, plotOutput("heatmap_plot")),
+            column(width = 12, plotOutput("daily_revenue_plot"))
+          )
+        ),
+        # Page 3:
+        tabPanel(
+          "Page 3",
+          fluidRow(
+            column(width = 12, plotlyOutput("top_selling_items_plot")),
+            column(width = 12, plotlyOutput("sales_trend_plot")),
+            column(width = 12, plotlyOutput("quantity_vs_unit_price_plot"))
+          )
+        )
+      )
+    )
+  )
+)
+
+# Define server
+server <- function(input, output, session) {
+  # Initialize selected countries as empty
+  selectedCountries <- reactiveVal(character(0))
+  
+  # Update selected countries when the "Select All" button is clicked
+  observeEvent(input$selectAllCountries, {
+    selectedCountries(unique(newecommerce$Country))
+    updateSelectInput(session, "Country", selected = selectedCountries())
+  })
+  
+  # Clear selected countries when the "Clear Selection" button is clicked
+  observeEvent(input$clearSelectionCountries, {
+    selectedCountries(character(0))
+    updateSelectInput(session, "Country", selected = selectedCountries())
+  })
+  
+  # Initialize selected months as empty
+  selectedMonths <- reactiveVal(character(0))
+  
+  # Update selected months when the "Select All" button is clicked
+  observeEvent(input$selectAllMonths, {
+    selectedMonths(unique(format(as.Date(newecommerce$InvoiceDate, format = "%m/%d/%Y"), "%B")))
+    updateSelectInput(session, "Month", selected = selectedMonths())
+  })
+  
+  # Clear selected months when the "Clear Selection" button is clicked
+  observeEvent(input$clearSelectionMonths, {
+    selectedMonths(character(0))
+    updateSelectInput(session, "Month", selected = selectedMonths())
+  })
+  
+    # Initialize selected description as empty
+  selectedDescriptions <- reactiveVal(character(0))
+  
+  # Update selected description when the "Select All" button is clicked
+  observeEvent(input$selectAllDescriptions, {
+    selectedDescriptions(unique(newecommerce$Country))
+    updateSelectInput(session, "Country", selected = selectedCountries())
+  })
+  
+  # Clear selected countries when the "Clear Selection" button is clicked
+  observeEvent(input$clearSelectionDescriptions, {
+    selectedDescriptions(character(0))
+    updateSelectInput(session, "Country", selected = selectedCountries())
+  })
+  
+  filtered_data <- reactive({
+    if (is.null(input$Country))
+      return(newecommerce)
+    
+    newecommerce %>% filter(Country %in% input$Country) %>%
+      group_by(Country) %>%
+      summarise(num_customers = n_distinct(CustomerID),
+          total_revenue = sum(Quantity * `UnitPrice.RM.`),
+          revenue = Quantity * `UnitPrice.RM.`
+          )
+  })
+  
+  output$customer_plot <- renderPlotly({
+    filtered_data <- newecommerce %>% 
+      filter(Country %in% input$Country) %>%
+      group_by(Country) %>%
+      summarise(num_customers = n_distinct(CustomerID),
+          total_revenue = sum(Quantity * `UnitPrice.RM.`))
+      
+      plot_ly(filtered_data, x = ~Country, y = ~num_customers, type = "bar") %>%
+      layout(xaxis = list(title = "Country"),
+             yaxis = list(title = "Number of Customers"),
+             title = "Number of Customers per Country")
+  })
+  
+  output$revenue_plot <- renderPlotly({
+    plot_ly(filtered_data(), x = ~Country, y = ~total_revenue, type = "bar", color = ~Country) %>%
+      layout(xaxis = list(title = "Country"),
+             yaxis = list(title = "Total Revenue (RM Billion)"),
+             title = "Total Revenue Breakdown by Country")
+  })
+
+  output$boxplot_totalrevenue <- renderPlotly({
+    filtered_data() %>%
+      plot_ly(x = ~revenue, y = ~Country, type = "box") %>%
+      layout(xaxis = list(title = "Revenue (RM)"),
+             yaxis = list(title = "Country"),
+             title = "Boxplot of Revenue by Country",
+             boxmode = "group",
+             showlegend = FALSE,
+             hoverlabel = list(
+               bgcolor = "white",
+               font = list(family = "Arial", size = 12, color = "black"),
+               align = "auto"
+             )
+      )
+  })
+  
+  output$heatmap_plot <- renderPlot({
+    filtered_data <- newecommerce %>%
+      filter(format(as.Date(InvoiceDate, format = "%m/%d/%Y"), "%B") %in% input$Month) %>%
+      mutate(Weekday = weekdays(as.Date(InvoiceDate, format = "%m/%d/%Y")),
+             Hour = as.numeric(format(as.POSIXct(InvoiceDate, format = "%m/%d/%Y %H:%M"), "%H"))) %>%
+      count(Hour, Weekday) %>%
+      acast(Weekday ~ Hour, value.var = "n", fill = 0)
+    
+    ggplot(data = melt(filtered_data), aes(x = Var2, y = Var1, fill = value)) +
+      geom_tile(color = "white") +
+      scale_fill_gradient(low = "white", high = "steelblue") +
+      labs(x = "Hour of Day", y = "Weekday", title = "Number of Transactions by Hour and Weekday") +
+      theme_minimal() +
+      theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
+      geom_text(aes(label = value), color = "black")
+  })
+  
+  output$daily_revenue_plot <- renderPlot({
+  filtered_data <- newecommerce %>%
+    filter(format(as.Date(InvoiceDate, format = "%B"), "%B") %in% input$Month) %>%
+    mutate(Date = as.Date(InvoiceDate)) %>%
+    group_by(Date) %>%
+    summarise(total_revenue = sum(Quantity * `UnitPrice.RM.`))
+  
+  ggplot(filtered_data, aes(x = Date, y = total_revenue)) +
+    geom_line() +
+    xlab("Date") +
+    ylab("Total Revenue (RM)") +
+    ggtitle("Daily Total Revenue") +
+    geom_label_repel(aes(label = total_revenue), 
+                     box.padding = 0.5,
+                     point.padding = 0.5,
+                     force = 1,
+                     color = "black", 
+                     size = 3)
+})
+
+  
+  filtered_data_top_selling <- reactive({
+    newecommerce %>%
+      filter(Description %in% input$description_input) %>%
+      group_by(Description) %>%
+      summarise(quantity_sold = sum(Quantity))
+  })
+  
+  output$top_selling_items_plot <- renderPlotly({
+    plot_ly(filtered_data_top_selling(), x = ~Description, y = ~quantity_sold, type = "bar") %>%
+      layout(xaxis = list(title = "Description"),
+             yaxis = list(title = "Quantity Sold"),
+             title = "Selling Items According by Quantity Sold")
+
+  })
+  
+  filtered_data_sales_trend <- reactive({
+    desc <- input$description_input
+    newecommerce %>%
+      mutate(InvoiceDate = as.Date(InvoiceDate, format = "%m/%d/%Y %H:%M")) %>%
+      filter(Description %in% desc) %>%
+      group_by(InvoiceDate) %>%
+      summarise(total_sales = sum(Quantity * `UnitPrice.RM.`))
+  })
+  
+  output$sales_trend_plot <- renderPlotly({
+    data <- filtered_data_sales_trend()
+    plot_ly(data, x = ~InvoiceDate, y = ~total_sales, type = "scatter", mode = "lines") %>%
+      layout(
+        xaxis = list(title = "Invoice Date"),
+        yaxis = list(title = "Total Sales Amount"),
+        title = "Sales Trend") %>%
+      add_trace(hoverlabel = list(bgcolor = "white", font = list(family = "Arial", size = 12, color = "black"), align = "auto"),
+                hovertemplate = "<b>Invoice Date:</b> %{x}<br><b>Total Sales Amount:</b> %{y}")
+  })
+  
+  filtered_data_quantity_vs_unit_price <- reactive({
+    desc <- input$description_input
+    newecommerce %>%
+      filter(Description %in% desc) %>%
+      group_by(Description) %>%
+      summarise(
+        quantity_sold = sum(Quantity),
+        unit_price = sum(`UnitPrice.RM.`)
+      )
+  })
+  
+  output$quantity_vs_unit_price_plot <- renderPlotly({
+    data <- filtered_data_quantity_vs_unit_price()
+    plot_ly(data, x = ~quantity_sold, y = ~unit_price, type = "scatter", mode = "markers") %>%
+      layout(
+        xaxis = list(title = "Quantity Sold"),
+        yaxis = list(title = "Unit Price"),
+        title = "Quantity vs. Unit Price") %>%
+      add_trace(hoverlabel = list(bgcolor = "white", font = list(family = "Arial", size = 12, color = "black"), align = "auto"),
+                hovertemplate = "<b>Description:</b> %{text}<br><b>Quantity Sold:</b> %{x}<br><b>Unit Price:</b> %{y}",
+                text = ~Description)
+  })
+}
+
+# Run the Shiny app
+shinyApp(ui = ui, server = server)
+```
+
